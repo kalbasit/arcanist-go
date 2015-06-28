@@ -1,0 +1,61 @@
+{
+    "exclude": [
+        "(\\.phutil_module_cache$)"
+    ],
+    "linters": {
+        "chmod": {
+            "type": "chmod"
+        },
+        "filename": {
+            "type": "filename"
+        },
+        "generated": {
+            "type": "generated"
+        },
+        "json": {
+            "include": [
+                "(^\\.arcconfig$)",
+                "(^\\.arclint$)",
+                "(\\.json$)"
+            ],
+            "type": "json"
+        },
+        "merge-conflict": {
+            "type": "merge-conflict"
+        },
+        "nolint": {
+            "type": "nolint"
+        },
+        "phutil-library": {
+            "include": "(\\.php$)",
+            "type": "phutil-library"
+        },
+        "phutil-xhpast": {
+            "include": "(\\.php$)",
+            "type": "phutil-xhpast"
+        },
+        "spelling": {
+            "type": "spelling"
+        },
+        "text": {
+            "exclude": [
+                "(^\\.arcconfig$)",
+                "(^\\.arclint$)"
+            ],
+            "type": "text"
+        },
+        "xhpast": {
+            "include": "(\\.php$)",
+            "severity": {
+                "16": "advice",
+                "34": "error"
+            },
+            "type": "xhpast",
+            "xhpast.blacklisted.function": {
+                "eval": "The eval() function should be avoided. It is potentially unsafe and makes debugging more difficult."
+            },
+            "xhpast.php-version": "5.2.3",
+            "xhpast.php-version.windows": "5.3.0"
+        }
+    }
+}
