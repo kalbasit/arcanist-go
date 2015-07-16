@@ -78,7 +78,7 @@ final class ArcanistGoTestResultParser extends ArcanistTestResultParser {
         // For now set name without test case, we'll add it later
         $result->setName($meta['test_name']);
         $result->setResult(ArcanistUnitTestResult::RESULT_PASS);
-        $result->setDuration($meta['time']);
+        $result->setDuration((float)$meta['time']);
 
         $test_case_results[] = $result;
 
@@ -97,7 +97,7 @@ final class ArcanistGoTestResultParser extends ArcanistTestResultParser {
         $result = new ArcanistUnitTestResult();
         $result->setName($meta['test_name']);
         $result->setResult(ArcanistUnitTestResult::RESULT_FAIL);
-        $result->setDuration($meta['time']);
+        $result->setDuration((float)$meta['time']);
         $result->setUserData($reason."\n");
 
         $test_case_results[] = $result;
@@ -124,7 +124,7 @@ final class ArcanistGoTestResultParser extends ArcanistTestResultParser {
           $result = new ArcanistUnitTestResult();
           $result->setName($test_name);
           $result->setResult(ArcanistUnitTestResult::RESULT_PASS);
-          $result->setDuration($meta['time']);
+          $result->setDuration((float)$meta['time']);
 
           $results[] = $result;
         } else {
