@@ -11,15 +11,37 @@ final class GoTestEngine extends ArcanistUnitTestEngine {
 
   public function run() {
     $this->projectRoot = $this->getWorkingCopy()->getProjectRoot();
+    $exclude_paths = array(
+      './.git',
+      './.git/*',
+      './Godeps',
+      './Godeps/*',
+      './vendor',
+      './vendor/*',
+    );
 
+    $paths = array();
     if ($this->getRunAllTests()) {
-      $paths = id(new FileFinder($this->projectRoot))
-        ->excludePath('./.git')
-        ->excludePath('./.git/*')
-        ->withType('d')
-        ->find();
+      $finder = id(new FileFinder($this->projectRoot))->withType('d');
+      foreach ($exclude_paths as $ep) {
+        $finder->excludePath($ep);
+      }
+      $paths = $finder->find();
     } else {
-      $paths = $this->getPaths();
+      $all_paths = $this->getPaths();
+      foreach ($all_paths as $path) {
+        $matches = true;
+        foreach ($exclude_paths as $ep) {
+          if (fnmatch(ltrim($ep, './'), $path)) {
+            $matches = false;
+            break;
+          }
+        }
+        if (!$matches) {
+          continue;
+        }
+        $paths[] = $path;
+      }
     }
 
     $futures = $this->buildFutures($paths, $this->getCommandTemplate());
@@ -58,7 +80,7 @@ final class GoTestEngine extends ArcanistUnitTestEngine {
 
   protected function getDefaultConfig() {
     return array(
-      self::USE_GODEP_KEY => true,
+      self::USE_GODEP_KEY => false,
       self::USE_RACE_KEY  => true,
     );
   }
