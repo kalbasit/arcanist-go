@@ -7,6 +7,7 @@ final class GoTestEngine extends ArcanistUnitTestEngine {
 
   const USE_GODEP_KEY = 'unit.go.godep';
   const USE_RACE_KEY = 'unit.go.race';
+  const USE_SHORT_KEY = 'unit.go.short';
   private $projectRoot;
 
   public function run() {
@@ -82,6 +83,7 @@ final class GoTestEngine extends ArcanistUnitTestEngine {
     return array(
       self::USE_GODEP_KEY => false,
       self::USE_RACE_KEY  => true,
+      self::USE_SHORT_KEY => false,
     );
   }
 
@@ -92,6 +94,10 @@ final class GoTestEngine extends ArcanistUnitTestEngine {
     }
 
     $cmd .= 'go test -v';
+
+    if ($this->useShort()) {
+      $cmd .= " -short";
+    }
 
     if ($this->useRace()) {
       $cmd .= ' -race';
@@ -104,7 +110,7 @@ final class GoTestEngine extends ArcanistUnitTestEngine {
 
   protected function useRace() {
     $default = idx($this->getDefaultConfig(), self::USE_RACE_KEY);
-    if ($this->getConfig(self::USE_RACE_KEY, $default) === false) {
+    if ($this->getConfig(self::USE_RACE_KEY, $default) === "false") {
       return false;
     }
 
@@ -118,7 +124,7 @@ final class GoTestEngine extends ArcanistUnitTestEngine {
 
   protected function useGodep() {
     $default = idx($this->getDefaultConfig(), self::USE_GODEP_KEY);
-    if ($this->getConfig(self::USE_GODEP_KEY, $default) === false) {
+    if ($this->getConfig(self::USE_GODEP_KEY, $default) === "false") {
       return false;
     }
 
@@ -126,6 +132,14 @@ final class GoTestEngine extends ArcanistUnitTestEngine {
       return true;
     }
 
+    return false;
+  }
+
+  protected function useShort() {
+    $default = idx($this->getDefaultConfig(), self::USE_SHORT_KEY);
+    if ($this->getConfig(self::USE_SHORT_KEY, $default) === "true") {
+      return true;
+    }
     return false;
   }
 
