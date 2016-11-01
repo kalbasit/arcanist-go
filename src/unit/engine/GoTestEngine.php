@@ -202,7 +202,7 @@ final class GoTestEngine extends ArcanistUnitTestEngine {
         throw new Exception(
           sprintf(
             "%s\n\nSTDOUT\n%s\n\nSTDERR\n%s",
-            pht('Linter failed to parse output!'),
+            pht('GoTestEngine failed to parse result!'),
             $stdout,
             $stderr));
       }

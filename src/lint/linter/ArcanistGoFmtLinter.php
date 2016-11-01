@@ -75,7 +75,7 @@ final class ArcanistGoFmtLinter extends ArcanistLinter {
       throw new Exception(
         sprintf(
           "%s\n\nSTDOUT\n%s\n\nSTDERR\n%s",
-          pht('Linter failed to parse output!'),
+          pht($this->getLinterName() . ' failed to parse output!'),
           $stdout,
           $stderr));
     }

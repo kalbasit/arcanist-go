@@ -62,21 +62,42 @@ final class ArcanistGoVetLinter extends ArcanistExternalLinter {
     return ['tool', 'vet'];
   }
 
+  protected function getDefaultMessageSeverity($code) {
+    return ArcanistLintSeverity::SEVERITY_WARNING;
+  }
+
   protected function parseLinterOutput($path, $err, $stdout, $stderr) {
     $lines = phutil_split_lines($stderr, false);
 
     $messages = array();
     foreach ($lines as $line) {
-      $matches = explode(':', $line, 3);
+      $matches = explode(':', $line, 6);
+
+      if (count($matches) === 6) {
+        $message = new ArcanistLintMessage();
+        $message->setPath($path);
+        $message->setLine($matches[3]);
+        $message->setChar($matches[4]);
+        $code = "E00";
+        $message->setCode($code);
+        $message->setName($this->getLinterName());
+        $message->setDescription(ucfirst(trim($matches[5])));
+        $severity = $this->getLintMessageSeverity($code);
+        $message->setSeverity($severity);
+
+        $messages[] = $message;
+      }
 
       if (count($matches) === 3) {
         $message = new ArcanistLintMessage();
         $message->setPath($path);
         $message->setLine($matches[1]);
-        $message->setCode($this->getLinterName());
+        $code = "E01";
+        $message->setCode($code);
         $message->setName($this->getLinterName());
         $message->setDescription(ucfirst(trim($matches[2])));
-        $message->setSeverity(ArcanistLintSeverity::SEVERITY_WARNING);
+        $severity = $this->getLintMessageSeverity($code);
+        $message->setSeverity($severity);
 
         $messages[] = $message;
       }
