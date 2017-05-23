@@ -1,3 +1,7 @@
+# Maintainer needed
+
+I no longer use Phabricator nor Arcanis and I have no time to maintain this repository. If you would like to take ownership, please let me know by [opening a new issue](https://github.com/kalbasit/arcanist-go/issues/new).
+
 # Phabricator's Arcanist Golang support.
 
 This library provide Go support for
