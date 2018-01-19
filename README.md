@@ -88,3 +88,9 @@ $ cat .arclint
     }
 }
 ```
+
+# License
+
+All source code is licensed under the [Apache 2.0 license](LICENSE), the
+same license as for the
+[Arcanist](https://github.com/phacility/arcanist) project.
